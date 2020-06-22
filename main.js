@@ -69,7 +69,7 @@ for(let cell of cells) {
 
 document.getElementById("board").addEventListener("click", event => {
   // TODO: Toggle clicked cell (event.target) and paint
-   let index = tds.indexOf(event.target); 
+   let index = tds.indexOf(event.target);
 
    let row = tds[index].getAttribute('data-row');
    let col = tds[index].getAttribute('data-col');
@@ -86,7 +86,7 @@ document.getElementById("step_btn").addEventListener("click", event => {
    paint();
 });
 
-let intervalID = false;
+let intervalID = 0;
 document.getElementById("play_btn").addEventListener("click", event => {
   // TODO: Start playing by calling `tick` and paint
   // repeatedly every fixed time interval.
@@ -94,22 +94,27 @@ document.getElementById("play_btn").addEventListener("click", event => {
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval
   
   let enableAutoPlay = () => {
-    gol.tick();  
-
+    gol.tick();
+    
     paint();
-  }
 
+    if(gol.hasEmptyBoard()) {
+      clearInterval(intervalID);
+    }
+  }
+  
   intervalID = setInterval(enableAutoPlay,300);
 });
 
 document.getElementById("random_btn").addEventListener("click", event => {
   // TODO: Randomize the board and paint
   let board = gol.board;
+
   for(let r=0;r<height;r++) {
     for(let c=0;c<width;c++) {
        board[r][c] = Math.floor(Math.random() * 2);
     }
-  }
+  } 
   
   paint();
 });
@@ -123,10 +128,11 @@ document.getElementById("clear_btn").addEventListener("click", event => {
         board[r][c] = 0;
      }
    }
+   clearInterval(intervalID);
    
    paint();
 });
 
-document.getElementById("pause_btn").addEventListener("click", event => { 
-   clearInterval(intervalID);
+document.getElementById("pause_btn").addEventListener("click", event => {
+    clearInterval(intervalID);
 });

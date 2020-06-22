@@ -13,11 +13,11 @@ h1 {
   flex-direction: column;
 }
 
-#board{
+#board {
   border-collapse: collapse;
 }
 
-#board td{
+#board td {
   border: 1px solid #ddd;
   width: 18px;
   height: 18px;
